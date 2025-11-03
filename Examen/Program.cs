@@ -1,5 +1,6 @@
 ﻿using Examen;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 Console.WriteLine("Ingrese el nombre de la tienda:");
 string nombre = Console.ReadLine();
@@ -13,7 +14,10 @@ do
     Console.WriteLine("2. Registrar compra");
     Console.WriteLine("3. Registrar venta");
     Console.WriteLine("4. Consultar stock");
-    Console.WriteLine("5. Salir");
+    Console.WriteLine("5. Consultar Ventas");
+    Console.WriteLine("6. Consultar Compras");
+    Console.WriteLine("7. Consultar Ganancias");
+    Console.WriteLine("8. Salir");
     opcion = int.Parse(Console.ReadLine());
 
     switch (opcion)
@@ -30,8 +34,17 @@ do
         case 4: 
             ConsultarStock(tienda);
             break;
+        case 5:
+            ConsultarVentas(tienda);
+            break;
+        case 6:
+            ConsultarTotalCompras(tienda);
+            break;
+        case 7:
+            ConsultarGanancias(tienda);
+            break;
     }
-} while (opcion != 5);
+} while (opcion != 8);
 
 void RegistrarProducto(Tienda tienda)
 {
@@ -91,4 +104,50 @@ void ConsultarStock(Tienda tienda)
     {
         Console.WriteLine("Producto no correspondientre");
     }
+}
+
+void ConsultarVentas(Tienda tienda)
+{
+    float totalVentas = 0;
+    foreach (var comprobante in tienda.comprobantes)
+    {
+        if (comprobante is Venta venta)
+        {
+            totalVentas += venta.Cantidad * venta.PrecioUnitario;
+        }
+    }
+    Console.WriteLine($"Total ventas: {totalVentas}");
+}
+
+void ConsultarTotalCompras(Tienda tienda)
+{
+    float totalCompras = 0;
+    foreach (var comprobante in tienda.comprobantes)
+    {
+        if (comprobante is Compra compra)
+        {
+            totalCompras += compra.Cantidad * compra.PrecioUnitario; 
+        }
+    }
+    Console.WriteLine($"Total de compras: {totalCompras}");
+}
+
+void ConsultarGanancias (Tienda tienda)
+{
+    float totalVentas = 0;
+    float totalCompras = 0;
+
+    foreach (var comprobante in tienda.comprobantes)
+    {
+        if (comprobante is Venta venta)
+        {
+            totalVentas += venta.Cantidad * venta.PrecioUnitario;
+        }
+        else if (comprobante is Compra compra)
+        {
+            totalCompras += compra.Cantidad * compra.PrecioUnitario;
+        }
+    }
+    float ganancias = totalVentas + totalCompras;
+    Console.WriteLine($"Ganancias: {ganancias}");
 }
