@@ -50,7 +50,21 @@ void RegistrarProducto(Tienda tienda)
 {
     Producto producto = new Producto();
     Console.WriteLine("Ingrese el codigo del producto:");
-    producto.Codigo = int.Parse(Console.ReadLine());
+    int codigo = int.Parse(Console.ReadLine());
+
+    var existe = tienda.BuscarProducto(codigo);
+    if (existe != null)
+    {
+        Console.WriteLine($"El prodcuto ya existe: {existe.Descripcion}, con un stock de: {existe.Stock}");
+        Console.WriteLine("Ingrese la cantidad de stock para aregagrle:");
+        int cantidadEsxtra = int.Parse(Console.ReadLine());
+
+        existe.Stock += cantidadEsxtra;
+        Console.WriteLine($"Stock actualiza a {existe.Descripcion}, con un total de {existe.Stock}");
+        return;    
+    }
+
+    producto.Codigo = codigo;
     Console.WriteLine("Ingrese la descripcion del producto:");
     producto.Descripcion = Console.ReadLine();
     Console.WriteLine("Ingrese el stock del producto:");
@@ -108,12 +122,12 @@ void ConsultarStock(Tienda tienda)
 
 void ConsultarVentas(Tienda tienda)
 {
-    float totalVentas = 0;
-    foreach (var comprobante in tienda.comprobantes)
+    int totalVentas = 0;
+    foreach (var Ballerinacapuchina in tienda.comprobantes)
     {
-        if (comprobante is Venta venta)
+        if (Ballerinacapuchina is Venta )
         {
-            totalVentas += venta.Cantidad * venta.PrecioUnitario;
+            totalVentas++;
         }
     }
     Console.WriteLine($"Total ventas: {totalVentas}");
@@ -121,12 +135,12 @@ void ConsultarVentas(Tienda tienda)
 
 void ConsultarTotalCompras(Tienda tienda)
 {
-    float totalCompras = 0;
-    foreach (var comprobante in tienda.comprobantes)
+    int totalCompras = 0;
+    foreach (var TralaleroTralala in tienda.comprobantes)
     {
-        if (comprobante is Compra compra)
+        if (TralaleroTralala is Compra )
         {
-            totalCompras += compra.Cantidad * compra.PrecioUnitario; 
+            totalCompras ++; 
         }
     }
     Console.WriteLine($"Total de compras: {totalCompras}");
@@ -134,20 +148,21 @@ void ConsultarTotalCompras(Tienda tienda)
 
 void ConsultarGanancias (Tienda tienda)
 {
-    float totalVentas = 0;
-    float totalCompras = 0; 
+    float TotalCompra = 0;
+    float TotalVenta = 0;
+    float Ganancias = 0;
 
     foreach (var comprobante in tienda.comprobantes)
     {
         if (comprobante is Venta venta)
         {
-            totalVentas += venta.Cantidad * venta.PrecioUnitario;
+            TotalVenta += venta.Cantidad * venta.PrecioUnitario;
         }
         else if (comprobante is Compra compra)
         {
-            totalCompras += compra.Cantidad * compra.PrecioUnitario;
+            TotalCompra += compra.Cantidad * compra.PrecioUnitario;
         }
+        Ganancias = TotalCompra + TotalVenta;
     }
-    float ganancias = totalVentas + totalCompras;
-    Console.WriteLine($"Ganancias: {ganancias}");
+    Console.WriteLine($"Ganancias: {Ganancias}");
 }
