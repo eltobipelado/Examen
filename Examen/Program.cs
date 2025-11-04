@@ -135,7 +135,7 @@ void ConsultarTotalCompras(Tienda tienda)
 void ConsultarGanancias (Tienda tienda)
 {
     float totalVentas = 0;
-    float totalCompras = 0;
+    float totalCompras = 0; 
 
     foreach (var comprobante in tienda.comprobantes)
     {
